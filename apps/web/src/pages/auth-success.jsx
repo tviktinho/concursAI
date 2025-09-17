@@ -1,12 +1,12 @@
 import { createRoot } from 'react-dom/client'
 import '../index.css'
+import { setToken } from '../lib/auth.js'
 
 function Success() {
   const params = new URLSearchParams(window.location.search)
   const token = params.get('token')
   if (token) {
-    localStorage.setItem('token', token)
-    // Redireciona ao home ou conta
+    setToken(token)
     window.location.replace('/index.html')
   }
 
@@ -18,4 +18,3 @@ function Success() {
 }
 
 createRoot(document.getElementById('root')).render(<Success />)
-

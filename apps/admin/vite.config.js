@@ -15,6 +15,9 @@ export default defineConfig({
       input: {
         index: resolve(__dirname, 'index.html'),
         usuarios: resolve(__dirname, 'usuarios.html'),
+        temas: resolve(__dirname, 'temas.html'),
+        categorias: resolve(__dirname, 'categorias.html'),
+        relatorios: resolve(__dirname, 'relatorios.html'),
       },
     },
   },

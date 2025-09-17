@@ -1,0 +1,31 @@
+name: build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: [ apps/web, apps/admin ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.project }}
+        run: npm ci
+
+      - name: Build project
+        working-directory: ${{ matrix.project }}
+        run: npm run build
+

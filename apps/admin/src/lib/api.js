@@ -1,8 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL || ''
+import { getToken, clearSession } from './auth.js'
 
-export function getToken() {
-  return localStorage.getItem('token') || ''
-}
+const API_URL = import.meta.env.VITE_API_URL || ''
 
 export async function apiFetch(path, options = {}) {
   const headers = new Headers(options.headers || {})
@@ -12,6 +10,12 @@ export async function apiFetch(path, options = {}) {
 
   const res = await fetch(`${API_URL}${path}`, { ...options, headers })
   if (!res.ok) {
+    if (res.status === 401 || res.status === 403) {
+      clearSession()
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login.html'
+      }
+    }
     const text = await res.text().catch(() => '')
     throw new Error(text || `Request failed: ${res.status}`)
   }
